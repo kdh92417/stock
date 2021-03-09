@@ -1,12 +1,19 @@
-import pymysql
+from flask import Flask
 
-connection = pymysql.connect(host='localhost', port=3306, db='INVESTAR',
-                             user='root', password='durwltkwl12', autocommit=True)
+app = Flask(__name__)
 
-cursor = connection.cursor()
-cursor.execute("SELECT VERSION();")
-result = cursor.fetchone()
+@app.route('/')
+@app.route('/home')
+def home():
+    return '''
+    <h1>이건 h1 제목</h1>
+    <p>이건 p 본문</p>
+    <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask 홈페이지 바로가기</a>
+    '''
 
-print("MariaDB version : {}".format(result))
+@app.route('/user/<user_name>/<int:user_id>')
+def user(user_name, user_id):
+    return f'Hello, {user_name}({user_id})!'
 
-connection.close()
+if __name__ == '__main__':
+    app.run(debug=True)
